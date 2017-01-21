@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * ShoutOUT Lite (https://lite.getshoutout.com/).
+ *
+ * @category    Shoutout
+ * @package     Shoutout_Sms
+ * @author      Chamal Chamikara <chamalchamikara@gmail.com>
+ * @copyright   Copyright (c) 2017 Chamal Chamikara. (http://www.learnmagento.com/)
+ */
+-->
+<config>
+	<menu>
+		<sms translate="title" module="sms">
+			<title>ShoutOUT SMS</title>
+			<sort_order>80</sort_order>
+			<children>
+				<sendsms translate="title" module="sms">
+					<title>SMS Templates</title>
+					<action>adminhtml/sms_smstemplates</action>
+					<sort_order>5</sort_order>
+				</sendsms>
+				<history module="sms">
+					<title>SMS History</title>
+					<sort_order>10</sort_order>
+					<action>adminhtml/history</action>
+				</history>
+				<settings translate="title" module="sms">
+					<title>Configuration</title>
+					<sort_order>15</sort_order>
+					<action>adminhtml/system_config/edit/section/shoutout</action>
+				</settings>
+			</children>
+		</sms>
+	</menu>
+	<acl>
+		<resources>
+			<all>
+				<title>Allow Everything</title>
+			</all>
+			<admin>
+				<children>
+					<system>
+						<children>
+							<config>
+								<children>
+									<shoutout translate="title" module="sms">
+										<title>Configurations</title>
+										<sort_order>30</sort_order>
+									</shoutout>
+								</children>
+							</config>
+						</children>
+					</system>
+				</children>
+				<sms translate="title" module="sms">
+					<children>
+						<history translate="title">
+							<title>SMS History</title>
+							<sort_order>0</sort_order>
+						</history>
+					</children>
+				</sms>
+			</admin>
+		</resources>
+	</acl>
+</config>

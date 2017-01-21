@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * ShoutOUT Lite (https://lite.getshoutout.com/).
+ *
+ * @category    Shoutout
+ * @package     Shoutout_Sms
+ * @author      Chamal Chamikara <chamalchamikara@gmail.com>
+ * @copyright   Copyright (c) 2017 Chamal Chamikara. (http://www.learnmagento.com/)
+ */
+-->
+<layout version="0.1.0">
+    <default>
+        <reference name="head">
+            <action method="addCss">
+                <name>css/shoutout/shoutout.css</name>
+            </action>
+        </reference>
+    </default>
+    <adminhtml_sms_smstemplates_index>
+        <reference name="head">
+            <action method="addJs">
+                <script>lib/jquery/jquery-1.10.2.min.js</script>
+            </action>
+            <action method="addJs">
+                <script>lib/jquery/noconflict.js</script>
+            </action>
+            <action method="addJs">
+                <script>lib/shoutout/shoutout.js</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block type="sms/adminhtml_smsbackend" name="smstemplates" template="sms/smstemplates.phtml"/>
+        </reference>
+    </adminhtml_sms_smstemplates_index>
+    <adminhtml_history_index>
+        <reference name="content">
+            <block type="sms/adminhtml_history" name="sms_history"/>
+        </reference>
+    </adminhtml_history_index>
+</layout>

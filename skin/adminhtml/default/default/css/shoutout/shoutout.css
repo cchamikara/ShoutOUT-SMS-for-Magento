@@ -1,0 +1,62 @@
+.sms-template textarea{
+    width:290px;
+    height:100px;
+    border:1px solid grey;
+}
+.sms-template .button-container{
+    display:inline-block;
+    width:310px;
+}
+.sms-template .button-wrapper{
+    float:left;
+}
+.sms-template .left-textarea{
+    display:inline-block;
+    width:350px;
+}
+.sms-template .right-textarea{
+    display:inline-block;
+    width:320px;
+}
+.sms-template label{
+    font-weight:normal;
+    text-align:left;
+    width:350px;
+}
+.sms-template .customer-attributes{
+    margin-top: 20px;
+}
+.sms-template .customer-attributes .helper-hooks span:hover{
+    color: #ea7601;
+    border-bottom: 1px dashed #ED6502;
+    cursor: pointer;
+}
+.sms-template .customer-attributes .attribute-wrapper{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.sms-template .customer-attributes .attribute-wrapper p{
+    font-weight: bold;
+}
+.sms-template .entry-edit{
+    margin-bottom: 1px;
+    cursor: pointer;
+}
+.shoutout-config{
+    background:#EAF0EE;
+    border:1px solid #CCCCCC;
+    margin-bottom:10px;
+    padding:20px 15px 15px;
+    border-radius: 5px;
+}
+.shoutout-config img{
+    padding-left: 20px;
+    padding-bottom: 20px;
+    width: 300px;
+}
+.shoutout-config .top-container{
+    margin: 0 auto;
+}
+.shoutout-config .main-desc{
+    color:#EA7601;
+}

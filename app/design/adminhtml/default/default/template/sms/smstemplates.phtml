@@ -1,0 +1,82 @@
+<?php
+/**
+ * ShoutOUT Lite (https://lite.getshoutout.com/).
+ *
+ * @category    Shoutout
+ * @package     Shoutout_<?php echo $statusId; ?>ms
+ * @author      Chamal Chamikara <chamalchamikara@gmail.com>
+ * @copyright   Copyright (c) 2017 Chamal Chamikara. (http://www.learnmagento.com/)
+ */
+
+$helper = Mage::helper('sms');
+?>
+<div class="content-header">
+    <h3>SMS Templates</h3>
+</div>
+<div class="sms-template">
+    <?php $orderStatus = $helper->getOrderStatus();?>
+    <?php foreach ($orderStatus as $statusId => $statusTitle):?>
+        <?php $template = Mage::getModel('sms/templates')->loadByType($statusId);?>
+        <div class="entry-edit">
+            <div id="<?php echo $statusId?>-head" class="entry-edit-head" onclick="Fieldset.toggleCollapse('<?php echo $statusId; ?>', ''); return false;">
+                <h4 class="icon-head fieldset-legend head-account">
+                    <?php echo $statusTitle; ?>
+                </h4>
+            </div>
+            <div class="fieldset grid" id="<?php echo $statusId; ?>">
+                <form id="hook_<?php echo $statusId; ?>" action="<?php echo Mage::getUrl('*/*/saveTemplate') ?>" method="post">
+                    <input name="form_key" type="hidden" value="<?php echo Mage::getSingleton('core/session')->getFormKey() ?>"/>
+                    <input type="hidden" name="type" value="<?php echo $statusId; ?>"/>
+                    <input type="hidden" name="title" value="<?php echo $statusTitle; ?>"/>
+                    <div class="left-textarea">
+                        <label><?php echo Mage::helper('sms')->__('SMS text'); ?></label>
+                        <br>
+                        <textarea status="<?php echo $statusId; ?>" id="text_hook_<?php echo $statusId; ?>" name="message" class="required-entry input-text <?php echo $statusId; ?> active-textarea"><?php echo $this->escapeHtml($template->getMessage())?></textarea>
+                    </div>
+                    <div class="right-textarea">
+                        <label>
+                            <?php echo Mage::helper('sms')->__('Sample Preview'); ?>
+                        </label>
+                        <br>
+                        <textarea status="<?php echo $statusId; ?>" id="textfake_hook_<?php echo $statusId; ?>" name="textfake" disabled="disabled"></textarea>
+                    </div>
+                    <div class="button-container">
+                        <label for="active_hook_<?php echo $statusId; ?>"><?php echo Mage::helper('sms')->__('Enable Template: '); ?></label>
+                        <input type="checkbox" name="active" id="active_hook_<?php echo $statusId; ?>" value="1" <?php echo $template->getActive() ? 'checked' : ''; ?> />
+                        <br/><br/><br/>
+                        <div class="button-wrapper">
+                            <input type="submit" value="<?php echo Mage::helper('sms')->__('Save'); ?>" class="form-button"/>
+                        </div>
+                    </div>
+                </form>
+                <div class="customer-attributes">
+                    <!-- customer attributes -->
+                    <div class="attribute-wrapper">
+                        <p>Possible Customer Variables</p>
+                        <span class="helper-hooks">
+                            <?php if(is_array($customerAttributes = $helper->getCustomerAttributesHtml($statusId))) echo implode(',', $customerAttributes); ?>
+                        </span>
+                    </div>
+                    <!-- shop attributes -->
+                    <div class="attribute-wrapper">
+                        <p>Possible Shop Variables</p>
+                        <span class="helper-hooks">
+                            <?php if(is_array($shopAttributes = $helper->getShopAttributesHtml($statusId))) echo implode(',', $shopAttributes); ?>
+                        </span>
+                    </div>
+                    <!-- order attributes -->
+                    <div class="attribute-wrapper">
+                        <p>Possible Order Variables</p>
+                        <span class="helper-hooks">
+                            <?php if(is_array($orderAttributes = $helper->getOrderAttributesHtml($statusId))) echo implode(',', $orderAttributes); ?>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <script type="text/javascript">//<![CDATA[
+                Fieldset.applyCollapse('<?php echo $statusId; ?>');
+                //]]></script>
+        </div>
+    <?php endforeach;?>
+</div>
+

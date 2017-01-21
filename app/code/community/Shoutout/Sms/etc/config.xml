@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * ShoutOUT Lite (https://lite.getshoutout.com/).
+ *
+ * @category    Shoutout
+ * @package     Shoutout_Sms
+ * @author      Chamal Chamikara <chamalchamikara@gmail.com>
+ * @copyright   Copyright (c) 2017 Chamal Chamikara. (http://www.learnmagento.com/)
+ */
+-->
+<config>
+    <modules>
+        <Shoutout_Sms>
+            <version>1.0.1</version>
+        </Shoutout_Sms>
+    </modules>
+    <global>
+        <helpers>
+            <sms>
+                <class>Shoutout_Sms_Helper</class>
+            </sms>
+        </helpers>
+        <blocks>
+            <sms>
+                <class>Shoutout_Sms_Block</class>
+            </sms>
+        </blocks>
+        <models>
+            <sms>
+                <class>Shoutout_Sms_Model</class>
+                <resourceModel>sms_mysql4</resourceModel>
+            </sms>
+            <sms_mysql4>
+                <class>Shoutout_Sms_Model_Mysql4</class>
+                <entities>
+                    <templates>
+                        <table>shoutout_sms_templates</table>
+                    </templates>
+                    <history>
+                        <table>shoutout_sms_history</table>
+                    </history>
+                </entities>
+            </sms_mysql4>
+        </models>
+        <events>
+            <sales_order_save_after>
+                <observers>
+                    <sales_order_save_after_handler>
+                        <type>model</type>
+                        <class>sms/observer</class>
+                        <method>sendSMS</method>
+                    </sales_order_save_after_handler>
+                </observers>
+            </sales_order_save_after>
+            <sales_order_place_after>
+                <observers>
+                    <sales_order_place_after_handler>
+                        <type>model</type>
+                        <class>sms/observer</class>
+                        <method>newOrder</method>
+                    </sales_order_place_after_handler>
+                </observers>
+            </sales_order_place_after>
+        </events>
+        <resources>
+            <shoutout_setup>
+                <setup>
+                    <module>Shoutout_Sms</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </shoutout_setup>
+            <sms_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </sms_write>
+            <sms_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </sms_read>
+        </resources>
+    </global>
+    <adminhtml>
+        <layout>
+            <updates>
+                <sms>
+                    <file>sms.xml</file>
+                </sms>
+            </updates>
+        </layout>
+    </adminhtml>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <modules>
+                        <sms before="Mage_Adminhtml">Shoutout_Sms_Adminhtml</sms>
+                    </modules>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>
