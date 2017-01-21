@@ -27,6 +27,8 @@ Allow your Magento store to send SMS notifications to your customers on order st
 
 # Screenshots
 
-![admin configuration](https://postimg.org/image/z8f4m0yx5/)
-![SMS Templates](https://postimg.org/image/qnlsuuoqx/)
-![SMS History](https://postimg.org/image/h4c41e18p/)
+![admin configuration](https://s28.postimg.org/ollbglqrx/Screen_Shot_2017_01_21_at_10_43_19_PM.png)
+
+![SMS Templates](https://s28.postimg.org/jx5blf1l9/Screen_Shot_2017_01_21_at_10_42_37_PM.png)
+
+![SMS History](https://s28.postimg.org/mfr0m3nbh/Screen_Shot_2017_01_21_at_10_42_59_PM.png)
