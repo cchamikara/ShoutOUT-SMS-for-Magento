@@ -15,6 +15,7 @@ Allow your Magento store to send SMS notifications to your customers on order st
 - Realtime SMS template previewing
 - Customizable SMS templates using {customer_id},{customer_email},{customer_company},{customer_lastname},{customer_firstname},{customer_address},{customer_postcode},{customer_city},{customer_country},{customer_state},{customer_phone},{customer_vat_number}, {shop_email},{shop_phone}, {order_id},{order_total_paid},{order_currency},{order_date},{carrier_name}
 - View SMS History (Order ID, Order Status, Mobile Number, Created At, SMS Cost (by credit), Message, SMS Status) 
+- Scheduled Daily status (today revenue, order count and shipping total) updates to store owner
     
 # Installation
 - Download the module and paste all the files into magento root directory
