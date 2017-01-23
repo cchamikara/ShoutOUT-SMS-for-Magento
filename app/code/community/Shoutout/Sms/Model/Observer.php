@@ -34,4 +34,10 @@ class Shoutout_Sms_Model_Observer
     {
         Mage::helper('sms/api')->send(Mage_Sales_Model_Order::STATE_NEW, $observer->getOrder());
     }
+
+    public function dailyStatusSend()
+    {
+        if(!Mage::helper('sms/api')->isAdminSMSEnabled()) return;
+        Mage::helper('sms/api')->sendAdmin();
+    }
 }

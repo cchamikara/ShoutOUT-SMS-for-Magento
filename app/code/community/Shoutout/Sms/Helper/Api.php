@@ -45,6 +45,16 @@ class Shoutout_Sms_Helper_Api extends Mage_Core_Helper_Abstract
      */
     const DEFAULT_COUNTRY_CODE = '94';
 
+    /**
+     * Enable admin status emails
+     */
+    const ENABLE_ADMIN_STATUS_SMS = 'shoutout/api/enable_admin_status_sms';
+
+    /**
+     * Admin notification phone number
+     */
+    const ADMIN_SMS_PHONE_NUMBER = 'shoutout/api/admin_phone_number';
+
 
     /**
      * Get ShoutOUT API key
@@ -97,6 +107,26 @@ class Shoutout_Sms_Helper_Api extends Mage_Core_Helper_Abstract
             return Mage::getStoreConfig(self::SHOUTOUT_COUNTRY_CODE_CONFIG);
         }
         return self::DEFAULT_COUNTRY_CODE;
+    }
+
+    /**
+     * Check admin SMS availability
+     *
+     * @return mixed
+     */
+    public function isAdminSMSEnabled()
+    {
+        return Mage::getStoreConfig(self::ENABLE_ADMIN_STATUS_SMS);
+    }
+
+    /**
+     * Get store owner's Phone number
+     *
+     * @return mixed
+     */
+    public function getAdminPhoneNumber()
+    {
+        return Mage::getStoreConfig(self::ADMIN_SMS_PHONE_NUMBER);
     }
 
     /**
@@ -277,6 +307,61 @@ class Shoutout_Sms_Helper_Api extends Mage_Core_Helper_Abstract
             $message = $this->generateMessage($template, $order);
             if($message){
                 $this->shoutOUTSendSMS($message, $order, $status);
+            }
+        }
+    }
+
+    /**
+     * Generate daily status SMS
+     *
+     * @return string
+     */
+    public function generateDailyStatusSMS()
+    {
+        /* Load the Collection by Date */
+        $order = Mage::getModel('sales/order')->getCollection()
+            ->addAttributeToFilter('created_at', array('from' => date('Y-m-d'), 'to' => date('Y-m-d', strtotime('+1 days'))));
+
+        $order->getSelect()
+            ->reset(Zend_Db_Select::COLUMNS) //remove existings selects
+            ->columns(array('grand_total' => new Zend_Db_Expr('SUM(grand_total)'))) //add expresion to sum the grand_total
+            ->columns(array('count' => new Zend_Db_Expr('COUNT(entity_id)'))) //add expression to count the orders
+            ->columns(array('shipping_total' => new Zend_Db_Expr('SUM(shipping_amount+shipping_tax_amount)'))); //add expression to calculate the shipping costs
+
+        $data = $order->getFirstItem(); //because this is a collection, we need just the first item.
+
+        $sms = 'Grand Total: '.$data['grand_total'].PHP_EOL.'Today Orders: '.$data['count'].PHP_EOL.'Shipping Total: '.$data['shipping_total'];
+        return $sms;
+    }
+
+    /**
+     * Send Daily status to admin
+     */
+    public function sendAdmin()
+    {
+        $sms = $this->generateDailyStatusSMS();
+        $apiKey = $this->getAPIKey();
+        $adminPhone = $this->formatTelephoneNumber($this->getAdminPhoneNumber());
+        if($sms){
+            $config = Swagger\Client\Configuration::getDefaultConfiguration();
+            $config->setApiKey('Authorization',$apiKey);
+            $config->setApiKeyPrefix('Authorization', 'Apikey');
+            if($this->getSSLConfig()) $config->setSSLVerification(true);
+            if($this->getLogSettings()) $config->getDebug();
+
+            $apiInstance = new Swagger\Client\Api\DefaultApi();
+            $message = new Swagger\Client\Model\Message(array(
+                'source' => $this->getSenderId(),
+                'destinations' => [$adminPhone],
+                'content' => array(
+                    'sms' => $sms
+                ),
+                'transports' => ['SMS']
+            ));
+            try{
+                $apiInstance->messagesPost($message,$config);
+            }catch (Exception $e){
+                if($this->getLogSettings()) Mage::log($e->getMessage(), null, 'shoutout.log');
             }
         }
     }

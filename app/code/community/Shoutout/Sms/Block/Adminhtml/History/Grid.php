@@ -14,9 +14,6 @@
 class Shoutout_Sms_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
 
-    /**
-     * Shoutout_Sms_Block_Adminhtml_History_Grid constructor.
-     */
     public function __construct()
     {
         parent::__construct();
@@ -26,9 +23,6 @@ class Shoutout_Sms_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_Wid
         $this->setSaveParametersInSession(true);
     }
 
-    /**
-     * @return mixed
-     */
     protected function _prepareCollection()
     {
         $collection = Mage::getModel("sms/history")->getCollection();
@@ -36,9 +30,6 @@ class Shoutout_Sms_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_Wid
         return parent::_prepareCollection();
     }
 
-    /**
-     * @return mixed
-     */
     protected function _prepareColumns()
     {
         $this->addColumn("id", array(
@@ -95,18 +86,12 @@ class Shoutout_Sms_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_Wid
         return parent::_prepareColumns();
     }
 
-    /**
-     * @param $row
-     * @return string
-     */
     public function getRowUrl($row)
     {
         return '#';
     }
 
-    /**
-     * @return $this
-     */
+
     protected function _prepareMassaction()
     {
         $this->setMassactionIdField('id');
@@ -119,4 +104,6 @@ class Shoutout_Sms_Block_Adminhtml_History_Grid extends Mage_Adminhtml_Block_Wid
         ));
         return $this;
     }
+
+
 }

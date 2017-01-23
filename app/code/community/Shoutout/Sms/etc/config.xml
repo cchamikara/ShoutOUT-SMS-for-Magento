@@ -84,6 +84,18 @@
             </sms_read>
         </resources>
     </global>
+    <crontab>
+        <jobs>
+            <daily_status_send>
+                <schedule>
+                    <config_path>shoutout/api/daily_status_cron</config_path>
+                </schedule>
+                <run>
+                    <model>sms/observer::dailyStatusSend</model>
+                </run>
+            </daily_status_send>
+        </jobs>
+    </crontab>
     <adminhtml>
         <layout>
             <updates>
